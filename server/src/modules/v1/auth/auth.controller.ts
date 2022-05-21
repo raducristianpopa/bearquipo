@@ -18,7 +18,6 @@ const AuthController = {
     const remoteAddress = req.socket.remoteAddress || "";
     const userAgent = req.useragent || ({} as Details);
 
-    console.log(req.body);
     await AuthService.createUser(req.body, remoteAddress, userAgent);
 
     res.status(HTTPStatus.CREATED).json({ message: "Account was successfuly created." });
