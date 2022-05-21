@@ -1,7 +1,6 @@
 import { Details } from "express-useragent";
 import { Tokens, User } from "@prisma/client";
 import moment from "moment";
-import { JwtPayload } from "jsonwebtoken";
 export interface IAuthToken {
   token: string;
   expires: moment.Moment;
