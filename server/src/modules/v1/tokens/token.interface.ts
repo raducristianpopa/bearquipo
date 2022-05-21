@@ -14,6 +14,14 @@ declare module "jsonwebtoken" {
   }
 }
 
+declare global {
+  namespace jwt {
+    interface Request {
+      user: string;
+    }
+  }
+}
+
 /**
  * @export
  * @interaface IAuthService
