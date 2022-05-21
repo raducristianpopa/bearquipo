@@ -1,6 +1,7 @@
 import { Details } from "express-useragent";
 import { Tokens, User } from "@prisma/client";
 import moment from "moment";
+
 export interface IAuthToken {
   token: string;
   expires: moment.Moment;
