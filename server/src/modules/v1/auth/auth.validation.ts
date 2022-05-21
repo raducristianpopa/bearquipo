@@ -43,7 +43,7 @@ const AuthValidation = {
         .max(50)
         .label("Last name")
         .messages({
-          "string.pattern.base": "{#label} can only cantain alpha characteres, whitespaces and dash symbol",
+          "string.pattern.base": "{#label} can only cantain alpha characteres, whitespaces and dash symbol.",
         }),
       email: Joi.string()
         .trim()
@@ -53,7 +53,14 @@ const AuthValidation = {
         })
         .label("E-mail"),
       password: Joi.string().required().custom(passwordValidation).label("Password"),
-      confirm_password: Joi.string().strip().required().valid(Joi.ref("password")).label("Confirm password"),
+      confirm_password: Joi.string()
+        .strip()
+        .required()
+        .valid(Joi.ref("password"))
+        .label("Confirm password")
+        .messages({
+          "any.only": "Passwords do not match.",
+        }),
     }),
   },
 };
