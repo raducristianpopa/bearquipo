@@ -8,16 +8,40 @@ datasource db {
 }
 
 model User {
-  id            String        @id @default(uuid())
-  email         String        @unique
-  password      String
-  first_name    String
-  last_name     String
-  tokens        Token[]
-  is_active     Boolean       @default(true)
-  register_info RegisterInfo?
-  created_at    DateTime      @default(now())
-  updated_at    DateTime      @updatedAt
+  id              String            @id @default(uuid())
+  email           String            @unique
+  password        String
+  first_name      String
+  last_name       String
+  tokens          Token[]
+  adresses        UserAddress[]
+  is_active       Boolean           @default(true)
+  register_info   RegisterInfo?
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+  ShoppingSession ShoppingSession[]
+  Order           Order[]
+}
+
+model UserAddress {
+  id          String  @id @default(uuid())
+  user_id     String
+  address_1   String
+  address_2   String?
+  state       String
+  city        String
+  postal_code String
+  country_id  String
+  phone       String
+  country     Country @relation(fields: [country_id], references: [id])
+  user        User    @relation(fields: [user_id], references: [id])
+  Order       Order[]
+}
+
+model Country {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  UserAddress UserAddress[]
 }
 
 model Token {
@@ -35,9 +59,12 @@ model Token {
   user_agent      String?
 }
 
+enum Tokens {
+  ACCESS
+}
+
 model RegisterInfo {
   id             String @id @default(uuid())
-  user           User   @relation(fields: [user_id], references: [id])
   user_id        String @unique
   ip             String
   browser        String
@@ -45,8 +72,91 @@ model RegisterInfo {
   os             String
   platform       String
   user_agent     String
+  user           User   @relation(fields: [user_id], references: [id])
 }
 
-enum Tokens {
-  ACCESS
+model Supplier {
+  id      String    @id @default(uuid())
+  name    String
+  slug    String
+  Product Product[]
+}
+
+model Product {
+  id                   String           @id @default(uuid())
+  name                 String
+  description          String
+  slug                 String           @unique
+  sku                  String           @unique
+  price                Float
+  product_category_id  String
+  supplier_id          String
+  product_inventory_id String
+  supplier             Supplier         @relation(fields: [supplier_id], references: [id])
+  category             ProductCategory  @relation(fields: [product_category_id], references: [id])
+  inventory            ProductInventory @relation(fields: [product_inventory_id], references: [id])
+  CartItem             CartItem[]
+  OrderItem            OrderItem[]
+}
+
+model ProductCategory {
+  id      String    @id @default(uuid())
+  name    String    @unique
+  Product Product[]
+}
+
+model ProductInventory {
+  id       String    @id @default(uuid())
+  quantity Int
+  Product  Product[]
+}
+
+model ProductDiscount {
+  id        String      @id @default(uuid())
+  percent   Float
+  is_active Boolean     @default(false)
+  OrderItem OrderItem[]
+}
+
+model ShoppingSession {
+  id         String     @id @default(uuid())
+  user_id    String
+  total      Float
+  user       User       @relation(fields: [user_id], references: [id])
+  cart_items CartItem[]
+}
+
+model CartItem {
+  id                  String          @id @default(uuid())
+  shopping_session_id String
+  product_id          String
+  quantity            Int
+  product             Product         @relation(fields: [product_id], references: [id])
+  session             ShoppingSession @relation(fields: [shopping_session_id], references: [id])
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  user_id         String
+  total           Float
+  delivery_fee    Float
+  items           OrderItem[]
+  user_address_id String
+  created_at      DateTime    @default(now())
+  user            User        @relation(fields: [user_id], references: [id])
+  address         UserAddress @relation(fields: [user_address_id], references: [id])
+
+}
+
+model OrderItem {
+  id                  String           @id @default(uuid())
+  product_id          String
+  quantity            Int
+  price               Float
+  product_discount_id String?
+  final_price         Float
+  order_id            String
+  discount            ProductDiscount? @relation(fields: [product_discount_id], references: [id])
+  product             Product          @relation(fields: [product_id], references: [id])
+  Order               Order            @relation(fields: [order_id], references: [id])
 }
