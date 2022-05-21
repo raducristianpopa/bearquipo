@@ -1,5 +1,14 @@
+import { Express } from "express";
 import { Details } from "express-useragent";
 import { User } from "@prisma/client";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user: string;
+    }
+  }
+}
 
 /**
  * @export

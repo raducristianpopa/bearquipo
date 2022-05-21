@@ -11,6 +11,7 @@ interface EnviromentVariablesProps {
   POSTGRES_URL: string;
   JWT_TOKEN_SECRET: string;
   JWT_TOKEN_EXPIRATION_MINUTES: number;
+  COOKIE_AUTH_NAME: string;
   DISCORD_CLIENT_ID: string;
   DISCORD_CLIENT_SECRET: string;
   DISCORD_REDIRECT_URI: string;
@@ -30,6 +31,7 @@ const enviromentVariablesSchema: ObjectSchema<EnviromentVariablesProps> = Joi.ob
     JWT_TOKEN_EXPIRATION_MINUTES: Joi.number()
       .default(30)
       .description("The amount of minutes after which the access token expires."),
+    COOKIE_AUTH_NAME: Joi.string().required().description("Cookie name for the authentication service."),
     DISCORD_CLIENT_ID: Joi.string().required().description("Discord application client ID"),
     DISCORD_CLIENT_SECRET: Joi.string().required().description("Discord application client secret."),
     DISCORD_REDIRECT_URI: Joi.string().required().description("Local URI to redirect to Discord OAuth."),
@@ -64,6 +66,9 @@ export default {
   jwt: {
     tokenSecret: enviromentVariables.JWT_TOKEN_SECRET,
     tokenExpirationDays: enviromentVariables.JWT_TOKEN_EXPIRATION_MINUTES,
+  },
+  cookies: {
+    authName: enviromentVariables.COOKIE_AUTH_NAME,
   },
   discord: {
     redirectURI: enviromentVariables.DISCORD_REDIRECT_URI,

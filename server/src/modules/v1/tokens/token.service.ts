@@ -8,11 +8,6 @@ import db from "@utils/db";
 
 import { ITokenService } from "./token.interface";
 
-export interface IAuthToken {
-  token: string;
-  expires: moment.Moment;
-}
-
 const TokenService: ITokenService = {
   generateToken(tokenId, expires, tokenType, secret) {
     const payload = {

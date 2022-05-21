@@ -24,7 +24,7 @@ model Token {
   id              String   @id @db.Char(36)
   user            User     @relation(fields: [user_id], references: [id])
   user_id         String
-  token           String
+  token           String   @unique
   type            Tokens
   expires         DateTime
   is_expired      Boolean  @default(false)

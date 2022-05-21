@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { Details } from "express-useragent";
 
 import { catcher } from "@utils/catch";
+import config from "@config/config";
 import TokenService from "@modules/v1/tokens/token.service";
 
 import AuthService from "./auth.service";
@@ -33,7 +34,7 @@ const AuthController = {
     const userAgent = req.useragent || ({} as Details);
     const token = await TokenService.createAuthToken(user, userAgent);
 
-    res.cookie("bq_cookie_dev", token.token, cookieOptions(token.expires));
+    res.cookie(config.cookies.authName, token.token, cookieOptions(token.expires));
     res.status(HTTPStatus.OK).json({ message: "You are signed in." });
   }),
 };
