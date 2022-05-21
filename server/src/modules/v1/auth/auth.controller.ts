@@ -15,7 +15,7 @@ const AuthController = {
    * @param {Response} res
    * @returns {Promise<void>}
    */
-  signup: catcher(async function (req: Request, res: Response): Promise<void> {
+  signUp: catcher(async function (req: Request, res: Response): Promise<void> {
     const remoteAddress = req.socket.remoteAddress || "";
     const userAgent = req.useragent || ({} as Details);
 
@@ -29,13 +29,37 @@ const AuthController = {
    * @param {Response} res
    * @returns {Promise<void>}
    */
-  signin: catcher(async function (req: Request, res: Response): Promise<void> {
+  signIn: catcher(async function (req: Request, res: Response): Promise<void> {
     const user = await AuthService.verifyUser(req.body);
     const userAgent = req.useragent || ({} as Details);
     const token = await TokenService.createAuthToken(user, userAgent);
 
     res.cookie(config.cookies.authName, token.token, cookieOptions(token.expires));
     res.status(HTTPStatus.OK).json({ message: "You are signed in." });
+  }),
+
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Promise<void>}
+   */
+  signOut: catcher(async function (req: Request, res: Response): Promise<void> {
+    await AuthService.removeCurrentSession(req.cookies[config.cookies.authName]);
+
+    res.clearCookie(config.cookies.authName);
+    res.status(HTTPStatus.OK).json({ message: "You are signed out." });
+  }),
+
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @returns {Promise<void>}
+   */
+  massSignOut: catcher(async function (req: Request, res: Response): Promise<void> {
+    await AuthService.removeAllUserSession(req.user);
+
+    res.clearCookie(config.cookies.authName);
+    res.status(HTTPStatus.OK).json({ message: "You are signed out." });
   }),
 };
 

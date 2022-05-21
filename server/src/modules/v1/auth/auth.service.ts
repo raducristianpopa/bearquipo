@@ -52,6 +52,28 @@ const AuthService: IAuthService = {
 
     return existingUser;
   },
+
+  async removeCurrentSession(token) {
+    await db.token.update({
+      where: {
+        token,
+      },
+      data: {
+        is_expired: true,
+      },
+    });
+  },
+
+  async removeAllUserSession(userId) {
+    await db.token.updateMany({
+      where: {
+        user_id: userId,
+      },
+      data: {
+        is_expired: true,
+      },
+    });
+  },
 };
 
 export default AuthService;

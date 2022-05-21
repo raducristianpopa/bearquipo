@@ -22,10 +22,23 @@ export interface IAuthService {
   createUser(user: User, remoteAddress: string | undefined, userAgent: Details): Promise<void>;
 
   /**
-   *
    * @param {User} user
    * @returns {Promise<User>}
    * @memberof AuthService
    */
   verifyUser(user: User): Promise<User>;
+
+  /**
+   * @param {string} token
+   * @returns {Promise<void>}
+   * @memberof AuthService
+   */
+  removeCurrentSession(token: string): Promise<void>;
+
+  /**
+   * @param {string} userId
+   * @returns {Promise<void>}
+   * @memberof AuthService
+   */
+  removeAllUserSession(userId: string): Promise<void>;
 }
