@@ -21,14 +21,18 @@ model User {
 }
 
 model Token {
-  id         String   @id @default(uuid())
-  user       User     @relation(fields: [user_id], references: [id])
-  user_id    String
-  token      String
-  type       Tokens
-  expires    DateTime
-  is_expired Boolean  @default(false)
-  user_agent Json?
+  id              String   @id @db.Char(36)
+  user            User     @relation(fields: [user_id], references: [id])
+  user_id         String
+  token           String
+  type            Tokens
+  expires         DateTime
+  is_expired      Boolean  @default(false)
+  browser         String?
+  browser_version String?
+  os              String?
+  platform        String?
+  user_agent      String?
 }
 
 model RegisterInfo {
@@ -45,5 +49,4 @@ model RegisterInfo {
 
 enum Tokens {
   ACCESS
-  REFRESH
 }

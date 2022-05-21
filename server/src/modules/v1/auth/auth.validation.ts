@@ -23,7 +23,7 @@ function passwordValidation(value: string, helpers: CustomHelpers) {
 }
 
 const AuthValidation = {
-  createUser: {
+  register: {
     body: Joi.object().keys({
       first_name: Joi.string()
         .trim()
@@ -61,6 +61,18 @@ const AuthValidation = {
         .messages({
           "any.only": "Passwords do not match.",
         }),
+    }),
+  },
+  login: {
+    body: Joi.object().keys({
+      email: Joi.string()
+        .trim()
+        .required()
+        .email({
+          minDomainSegments: 2,
+        })
+        .label("E-mail"),
+      password: Joi.string().required().custom(passwordValidation).label("Password"),
     }),
   },
 };

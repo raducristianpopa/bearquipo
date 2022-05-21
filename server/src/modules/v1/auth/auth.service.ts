@@ -1,5 +1,3 @@
-import { Details } from "express-useragent";
-import { User } from "@prisma/client";
 import HTTPStatus from "http-status";
 import argon2 from "argon2";
 
@@ -9,7 +7,7 @@ import db from "@utils/db";
 import APIError from "@config/APIError";
 
 const AuthService: IAuthService = {
-  async createUser(user: User, remoteAddress: string | undefined, userAgent: Details): Promise<void> {
+  async createUser(user, remoteAddress, userAgent) {
     const existingUser = await db.user.findUnique({
       where: {
         email: user.email,
@@ -18,7 +16,6 @@ const AuthService: IAuthService = {
 
     if (existingUser) throw new APIError(HTTPStatus.BAD_REQUEST, `E-mail '${user.email}' already exists.`);
 
-    // hash existing password
     user.password = await argon2.hash(user.password);
 
     await db.user.create({
@@ -39,6 +36,21 @@ const AuthService: IAuthService = {
         },
       },
     });
+  },
+
+  async verifyUser(user) {
+    const existingUser = await db.user.findUnique({
+      where: {
+        email: user.email,
+      },
+    });
+
+    if (!existingUser) throw new APIError(HTTPStatus.UNAUTHORIZED, "Invalid credentials");
+
+    const passwordsMatch = await argon2.verify(existingUser.password, user.password);
+    if (!passwordsMatch) throw new APIError(HTTPStatus.UNAUTHORIZED, "Invalid credentials");
+
+    return existingUser;
   },
 };
 

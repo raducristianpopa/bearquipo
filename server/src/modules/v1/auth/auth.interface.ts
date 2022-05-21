@@ -12,4 +12,12 @@ export interface IAuthService {
    * @memberof AuthService
    */
   createUser(user: User, remoteAddress: string | undefined, userAgent: Details): Promise<void>;
+
+  /**
+   *
+   * @param {User} user
+   * @returns {Promise<User>}
+   * @memberof AuthService
+   */
+  verifyUser(user: User): Promise<User>;
 }
