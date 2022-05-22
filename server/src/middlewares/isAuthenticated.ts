@@ -31,7 +31,7 @@ export async function isAuthenticated(req: Request, res: Response, next: NextFun
     }
 
     // Token was marked as expired before
-    if (existingToken.is_expired) {
+    if (existingToken.isExpired) {
       res.clearCookie(config.cookies.authName);
       return next(new APIError(HTTPStatus.UNAUTHORIZED, "Unauthorized."));
     }
@@ -43,7 +43,7 @@ export async function isAuthenticated(req: Request, res: Response, next: NextFun
           id,
         },
         data: {
-          is_expired: true,
+          isExpired: true,
         },
       });
 
@@ -52,7 +52,7 @@ export async function isAuthenticated(req: Request, res: Response, next: NextFun
     }
 
     // If all the checks are passed we pass the user id to the `req` object
-    req.user = existingToken.user_id;
+    req.user = existingToken.userId;
     return next();
   } catch (err) {
     const savedToken = await db.token.findUnique({ where: { token } });
@@ -61,7 +61,7 @@ export async function isAuthenticated(req: Request, res: Response, next: NextFun
       await db.token.update({
         where: { token: token },
         data: {
-          is_expired: true,
+          isExpired: true,
         },
       });
     }

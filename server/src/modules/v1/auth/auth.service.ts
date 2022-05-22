@@ -20,18 +20,18 @@ const AuthService: IAuthService = {
 
     await db.user.create({
       data: {
-        first_name: user.first_name,
-        last_name: user.last_name,
+        firstName: user.firstName,
+        lastName: user.lastName,
         email: user.email,
         password: user.password,
-        register_info: {
+        registerInfo: {
           create: {
             ip: remoteAddress || "",
             browser: userAgent.browser,
-            brower_version: userAgent.version,
+            browserVersion: userAgent.version,
             os: userAgent.os,
             platform: userAgent.platform,
-            user_agent: userAgent.source,
+            userAgent: userAgent.source,
           },
         },
       },
@@ -59,7 +59,7 @@ const AuthService: IAuthService = {
         token,
       },
       data: {
-        is_expired: true,
+        isExpired: true,
       },
     });
   },
@@ -67,10 +67,10 @@ const AuthService: IAuthService = {
   async removeAllUserSession(userId) {
     await db.token.updateMany({
       where: {
-        user_id: userId,
+        userId,
       },
       data: {
-        is_expired: true,
+        isExpired: true,
       },
     });
   },

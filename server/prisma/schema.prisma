@@ -11,31 +11,31 @@ model User {
   id              String            @id @default(uuid())
   email           String            @unique
   password        String
-  first_name      String
-  last_name       String
+  firstName       String
+  lastName        String
   tokens          Token[]
   adresses        UserAddress[]
-  is_active       Boolean           @default(true)
-  register_info   RegisterInfo?
-  created_at      DateTime          @default(now())
-  updated_at      DateTime          @updatedAt
+  isActive        Boolean           @default(true)
+  registerInfo    RegisterInfo?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
   ShoppingSession ShoppingSession[]
   Order           Order[]
 }
 
 model UserAddress {
-  id          String  @id @default(uuid())
-  user_id     String
-  address_1   String
-  address_2   String?
-  state       String
-  city        String
-  postal_code String
-  country_id  String
-  phone       String
-  country     Country @relation(fields: [country_id], references: [id])
-  user        User    @relation(fields: [user_id], references: [id])
-  Order       Order[]
+  id           String  @id @default(uuid())
+  userId       String
+  addressLine1 String
+  addressLine2 String?
+  state        String
+  city         String
+  postalCode   String
+  countryId    String
+  phone        String
+  country      Country @relation(fields: [countryId], references: [id])
+  user         User    @relation(fields: [userId], references: [id])
+  Order        Order[]
 }
 
 model Country {
@@ -45,19 +45,19 @@ model Country {
 }
 
 model Token {
-  id              String   @id @db.Char(36)
-  user            User     @relation(fields: [user_id], references: [id])
-  user_id         String
-  token           String   @unique
-  type            Tokens
-  expires         DateTime
-  issued_at       DateTime @default(now())
-  is_expired      Boolean  @default(false)
-  browser         String?
-  browser_version String?
-  os              String?
-  platform        String?
-  user_agent      String?
+  id             String   @id @db.Char(36)
+  user           User     @relation(fields: [userId], references: [id])
+  userId         String
+  token          String   @unique
+  type           Tokens
+  expires        DateTime
+  issuedAt       DateTime @default(now())
+  isExpired      Boolean  @default(false)
+  browser        String?
+  browserVersion String?
+  os             String?
+  platform       String?
+  userAgent      String?
 }
 
 enum Tokens {
@@ -66,14 +66,14 @@ enum Tokens {
 
 model RegisterInfo {
   id             String @id @default(uuid())
-  user_id        String @unique
+  userId         String @unique
   ip             String
   browser        String
-  brower_version String
+  browserVersion String
   os             String
   platform       String
-  user_agent     String
-  user           User   @relation(fields: [user_id], references: [id])
+  userAgent      String
+  user           User   @relation(fields: [userId], references: [id])
 }
 
 model Supplier {
@@ -84,20 +84,20 @@ model Supplier {
 }
 
 model Product {
-  id                   String           @id @default(uuid())
-  name                 String
-  description          String
-  slug                 String           @unique
-  sku                  String           @unique
-  price                Float
-  product_category_id  String
-  supplier_id          String
-  product_inventory_id String
-  supplier             Supplier         @relation(fields: [supplier_id], references: [id])
-  category             ProductCategory  @relation(fields: [product_category_id], references: [id])
-  inventory            ProductInventory @relation(fields: [product_inventory_id], references: [id])
-  CartItem             CartItem[]
-  OrderItem            OrderItem[]
+  id                 String           @id @default(uuid())
+  name               String
+  description        String
+  slug               String           @unique
+  sku                String           @unique
+  price              Float
+  supplierId         String
+  productCategoryId  String
+  productInventoryId String
+  supplier           Supplier         @relation(fields: [supplierId], references: [id])
+  category           ProductCategory  @relation(fields: [productCategoryId], references: [id])
+  inventory          ProductInventory @relation(fields: [productInventoryId], references: [id])
+  CartItem           CartItem[]
+  OrderItem          OrderItem[]
 }
 
 model ProductCategory {
@@ -115,49 +115,49 @@ model ProductInventory {
 model ProductDiscount {
   id        String      @id @default(uuid())
   percent   Float
-  is_active Boolean     @default(false)
+  isActive  Boolean     @default(false)
   OrderItem OrderItem[]
 }
 
 model ShoppingSession {
   id         String     @id @default(uuid())
-  user_id    String
+  userId     String
   total      Float
-  user       User       @relation(fields: [user_id], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
   cart_items CartItem[]
 }
 
 model CartItem {
-  id                  String          @id @default(uuid())
-  shopping_session_id String
-  product_id          String
-  quantity            Int
-  product             Product         @relation(fields: [product_id], references: [id])
-  session             ShoppingSession @relation(fields: [shopping_session_id], references: [id])
+  id                String          @id @default(uuid())
+  shoppingSessionId String
+  productId         String
+  quantity          Int
+  product           Product         @relation(fields: [productId], references: [id])
+  session           ShoppingSession @relation(fields: [shoppingSessionId], references: [id])
 }
 
 model Order {
-  id              String      @id @default(uuid())
-  user_id         String
-  total           Float
-  delivery_fee    Float
-  items           OrderItem[]
-  user_address_id String
-  created_at      DateTime    @default(now())
-  user            User        @relation(fields: [user_id], references: [id])
-  address         UserAddress @relation(fields: [user_address_id], references: [id])
+  id            String      @id @default(uuid())
+  userId        String
+  total         Float
+  deliveryFee   Float
+  items         OrderItem[]
+  userAddressId String
+  createdAt     DateTime    @default(now())
+  user          User        @relation(fields: [userId], references: [id])
+  address       UserAddress @relation(fields: [userAddressId], references: [id])
 
 }
 
 model OrderItem {
-  id                  String           @id @default(uuid())
-  product_id          String
-  quantity            Int
-  price               Float
-  product_discount_id String?
-  final_price         Float
-  order_id            String
-  discount            ProductDiscount? @relation(fields: [product_discount_id], references: [id])
-  product             Product          @relation(fields: [product_id], references: [id])
-  Order               Order            @relation(fields: [order_id], references: [id])
+  id                String           @id @default(uuid())
+  productId         String
+  quantity          Int
+  price             Float
+  productDiscountId String?
+  finalPrice        Float
+  orderId           String
+  discount          ProductDiscount? @relation(fields: [productDiscountId], references: [id])
+  product           Product          @relation(fields: [productId], references: [id])
+  Order             Order            @relation(fields: [orderId], references: [id])
 }

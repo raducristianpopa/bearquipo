@@ -23,14 +23,14 @@ const TokenService: ITokenService = {
     await db.token.create({
       data: {
         id: tokenId,
-        user_id: user.id,
+        userId: user.id,
         token,
         type,
         expires: expires.toDate(),
         browser: userAgent.browser,
-        browser_version: userAgent.version,
+        browserVersion: userAgent.version,
         os: userAgent.os,
-        user_agent: userAgent.source,
+        userAgent: userAgent.source,
       },
     });
   },

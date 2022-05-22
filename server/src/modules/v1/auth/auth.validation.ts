@@ -25,7 +25,7 @@ export function passwordValidation(value: string, helpers: CustomHelpers) {
 const AuthValidation = {
   register: {
     body: Joi.object().keys({
-      first_name: Joi.string()
+      firstName: Joi.string()
         .trim()
         .required()
         .pattern(regex.ONLY_ALPHA_SPACES)
@@ -35,7 +35,7 @@ const AuthValidation = {
         .messages({
           "string.pattern.base": "{#label} can only cantain alpha characteres, whitespaces and dash symbol.",
         }),
-      last_name: Joi.string()
+      lastName: Joi.string()
         .required()
         .trim()
         .pattern(regex.ONLY_ALPHA_SPACES)
@@ -53,7 +53,7 @@ const AuthValidation = {
         })
         .label("E-mail"),
       password: Joi.string().required().custom(passwordValidation).label("Password"),
-      confirm_password: Joi.string()
+      confirmPassword: Joi.string()
         .strip()
         .required()
         .valid(Joi.ref("password"))

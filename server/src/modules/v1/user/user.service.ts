@@ -13,14 +13,14 @@ const UserService: IUserInterface = {
         id: userId,
       },
       select: {
-        first_name: true,
-        last_name: true,
+        firstName: true,
+        lastName: true,
         email: true,
         tokens: {
           select: {
-            issued_at: true,
+            issuedAt: true,
             browser: true,
-            browser_version: true,
+            browserVersion: true,
             os: true,
             platform: true,
           },
@@ -42,12 +42,12 @@ const UserService: IUserInterface = {
 
     if (!user) throw new APIError(HTTPStatus.NOT_FOUND, "User not found");
 
-    const passwordsMatch = await argon2.verify(user.password, passwords.old_password);
+    const passwordsMatch = await argon2.verify(user.password, passwords.oldPassword);
     if (!passwordsMatch) {
       if (!user) throw new APIError(HTTPStatus.BAD_REQUEST, "Your current password does not match.");
     }
 
-    const newPassword = await argon2.hash(passwords.new_password);
+    const newPassword = await argon2.hash(passwords.newPassword);
 
     await db.user.update({
       where: {
