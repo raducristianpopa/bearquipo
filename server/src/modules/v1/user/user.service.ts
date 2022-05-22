@@ -4,7 +4,7 @@ import argon2 from "argon2";
 import APIError from "@config/APIError";
 import db from "@utils/db";
 
-import { IUserInterface } from "./user.interface";
+import { IUserInterface, UserProfileData } from "./user.interface";
 
 const UserService: IUserInterface = {
   async getUser(userId: string) {
@@ -12,20 +12,7 @@ const UserService: IUserInterface = {
       where: {
         id: userId,
       },
-      select: {
-        firstName: true,
-        lastName: true,
-        email: true,
-        tokens: {
-          select: {
-            issuedAt: true,
-            browser: true,
-            browserVersion: true,
-            os: true,
-            platform: true,
-          },
-        },
-      },
+      select: UserProfileData,
     });
 
     if (!user) throw new APIError(HTTPStatus.NOT_FOUND, "User not found.");
@@ -60,6 +47,20 @@ const UserService: IUserInterface = {
         password: newPassword,
       },
     });
+  },
+
+  async updateUser(userId, info) {
+    const user = await db.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        ...info,
+      },
+      select: UserProfileData,
+    });
+
+    return user;
   },
 };
 

@@ -9,11 +9,23 @@ import UserValidation from "./user.validation";
 const router = express.Router();
 
 router.get("/me", isAuthenticated, UserController.me);
-router.patch(
-  "/change-password",
-  isAuthenticated,
-  validate(UserValidation.changePassword),
-  UserController.changePassword
-);
+
+router
+  .route("/")
+  .patch(isAuthenticated, validate(UserValidation.changePassword), UserController.changePassword)
+  .put(isAuthenticated, validate(UserValidation.updateUser), UserController.updateUser);
+
+// router.patch(
+//   "/change-password",
+//   isAuthenticated,
+//   validate(UserValidation.changePassword),
+//   UserController.changePassword
+// );
+// router.put(
+//   "/update-profile",
+//   isAuthenticated,
+//   validate(UserValidation.updateUser),
+//   UserController.updateUser
+// );
 
 export default router;

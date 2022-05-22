@@ -35,7 +35,7 @@ const AuthController = {
     const token = await TokenService.createAuthToken(user, userAgent);
 
     res.cookie(config.cookies.authName, token.token, cookieOptions(token.expires));
-    res.status(HTTPStatus.OK).json({ message: "You are signed in." });
+    res.status(HTTPStatus.CREATED).json({ message: "You are signed in." });
   }),
 
   /**
