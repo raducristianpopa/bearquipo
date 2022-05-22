@@ -15,6 +15,7 @@ declare global {
  */
 export interface IAuthService {
   /**
+   * @description Register a user
    * @param {User} user
    * @returns {Promise<void>}
    * @memberof AuthService
@@ -22,6 +23,7 @@ export interface IAuthService {
   createUser(user: User, remoteAddress: string | undefined, userAgent: Details): Promise<void>;
 
   /**
+   * @description Check the user on sign in
    * @param {User} user
    * @returns {Promise<User>}
    * @memberof AuthService
@@ -29,6 +31,7 @@ export interface IAuthService {
   verifyUser(user: User): Promise<User>;
 
   /**
+   * @description Sign out the user
    * @param {string} token
    * @returns {Promise<void>}
    * @memberof AuthService
@@ -36,6 +39,7 @@ export interface IAuthService {
   removeCurrentSession(token: string): Promise<void>;
 
   /**
+   * @description Sign out the user from all active sessions
    * @param {string} userId
    * @returns {Promise<void>}
    * @memberof AuthService

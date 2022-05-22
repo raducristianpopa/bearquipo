@@ -29,6 +29,7 @@ declare global {
  */
 export interface ITokenService {
   /**
+   * @description Generates a JWT token
    * @param {string} tokenId
    * @param {moment.Moment} expires
    * @param {Tokens} tokenType
@@ -39,6 +40,7 @@ export interface ITokenService {
   generateToken(tokenId: string, expires: moment.Moment, tokenType: Tokens, secret: string): string;
 
   /**
+   * @description Saves the token in the `Token` model (in our database)
    * @param {string} tokenId
    * @param {string} token
    * @param {User} user
@@ -57,6 +59,7 @@ export interface ITokenService {
   ): Promise<void>;
 
   /**
+   * @description Generates the authentication token that is saved in a cookie afterwards
    * @param {User} user
    * @return {Promise<IAuthToken>}
    * @memberof TokenService

@@ -1,9 +1,26 @@
 import { User, Token } from "@prisma/client";
 
-type UserWithActiveSessions = Promise<Partial<User> & { tokens: Partial<Token>[] }>;
+type UserWithActiveSessions = Partial<User> & { tokens: Partial<Token>[] };
 
+/**
+ * @export
+ * @interaface IUserInterface
+ */
 export interface IUserInterface {
-  getUser(userId: string): UserWithActiveSessions;
+  /**
+   * @description Get user informations for this settings page
+   * @param {string} userId
+   * @returns {Promise<UserWithActiveSessions>}
+   * @memberof UserService
+   */
+  getUser(userId: string): Promise<UserWithActiveSessions>;
 
+  /**
+   * @description Change user password
+   * @param {string} userId
+   * @param {oldPassword: string; newPassword: string} passwords
+   * @returns {Promise<void>}
+   * @memberof UserService
+   */
   changePassword(userId: string, passwords: { oldPassword: string; newPassword: string }): Promise<void>;
 }

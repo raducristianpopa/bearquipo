@@ -47,8 +47,8 @@ const AuthService: IAuthService = {
 
     if (!existingUser) throw new APIError(HTTPStatus.UNAUTHORIZED, "Invalid credentials");
 
-    const passwordsMatch = await argon2.verify(existingUser.password, user.password);
-    if (!passwordsMatch) throw new APIError(HTTPStatus.UNAUTHORIZED, "Invalid credentials");
+    if (!(await argon2.verify(existingUser.password, user.password)))
+      throw new APIError(HTTPStatus.UNAUTHORIZED, "Invalid credentials");
 
     return existingUser;
   },

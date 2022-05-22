@@ -42,8 +42,11 @@ const UserService: IUserInterface = {
 
     if (!user) throw new APIError(HTTPStatus.NOT_FOUND, "User not found");
 
-    const passwordsMatch = await argon2.verify(user.password, passwords.oldPassword);
-    if (!passwordsMatch) {
+    /*
+    If the current user password does not match, the user sent the wrong password and we will
+    not let him change his password
+    */
+    if (!(await argon2.verify(user.password, passwords.oldPassword))) {
       if (!user) throw new APIError(HTTPStatus.BAD_REQUEST, "Your current password does not match.");
     }
 
