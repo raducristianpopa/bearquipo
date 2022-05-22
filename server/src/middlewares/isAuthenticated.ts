@@ -11,7 +11,7 @@ import db from "@utils/db";
 export async function isAuthenticated(req: Request, res: Response, next: NextFunction): Promise<void> {
   const token: string = req.cookies[config.cookies.authName];
 
-  if (!token) next(new APIError(HTTPStatus.UNAUTHORIZED, "Unauthorized."));
+  if (!token) return next(new APIError(HTTPStatus.UNAUTHORIZED, "Unauthorized."));
 
   try {
     const { id, type } = <IAuthTokenPayload>jwt.verify(token, config.jwt.tokenSecret);

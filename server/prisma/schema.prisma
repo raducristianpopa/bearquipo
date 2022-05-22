@@ -51,6 +51,7 @@ model Token {
   token           String   @unique
   type            Tokens
   expires         DateTime
+  issued_at       DateTime @default(now())
   is_expired      Boolean  @default(false)
   browser         String?
   browser_version String?

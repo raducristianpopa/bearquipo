@@ -2,7 +2,7 @@ import Joi, { CustomHelpers } from "joi";
 
 import regex from "@utils/regex";
 
-function passwordValidation(value: string, helpers: CustomHelpers) {
+export function passwordValidation(value: string, helpers: CustomHelpers) {
   if (value.length < 8) {
     return helpers.message({ custom: "{{#label}} must be at least 8 characters" });
   }
@@ -72,7 +72,7 @@ const AuthValidation = {
           minDomainSegments: 2,
         })
         .label("E-mail"),
-      password: Joi.string().required().custom(passwordValidation).label("Password"),
+      password: Joi.string().required().label("Password"),
     }),
   },
 };
