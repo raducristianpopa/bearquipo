@@ -8,7 +8,10 @@ import { User, Token, Prisma, UserAddress } from "@prisma/client";
     3. If the user clicks on the link, his current e-mail address will be change to the new one
 */
 
-type UserProfileProps = Partial<User> & { tokens: Partial<Token>[]; addresses: Partial<UserAddress>[] };
+type UserProfileProps = Pick<User, "firstName" | "lastName" | "email"> & {
+  tokens: Pick<Token, "browser" | "browserVersion" | "os" | "platform" | "issuedAt">[];
+  addresses: Omit<UserAddress, "userId">[];
+};
 type UserUpdateRequestBody = Pick<User, "firstName" | "lastName">;
 
 export const UserAddressData = Prisma.validator<Prisma.UserAddressSelect>()({
