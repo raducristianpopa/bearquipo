@@ -20,6 +20,11 @@ const UserController = {
     const user = await UserService.updateUser(req.user, req.body);
     res.status(HTTPStatus.OK).json(user);
   }),
+
+  createAddress: catcher(async function (req: Request, res: Response): Promise<void> {
+    const address = await UserService.createUserAddress(req.user, req.body);
+    res.status(HTTPStatus.CREATED).json(address);
+  }),
 };
 
 export default UserController;

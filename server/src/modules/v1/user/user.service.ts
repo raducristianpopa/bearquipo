@@ -4,7 +4,7 @@ import argon2 from "argon2";
 import APIError from "@config/APIError";
 import db from "@utils/db";
 
-import { IUserInterface, UserProfileData } from "./user.interface";
+import { IUserInterface, UserProfileData, UserAddressData } from "./user.interface";
 
 const UserService: IUserInterface = {
   async getUser(userId: string) {
@@ -61,6 +61,20 @@ const UserService: IUserInterface = {
     });
 
     return user;
+  },
+
+  async createUserAddress(userId, addressData) {
+    const address = await db.userAddress.create({
+      data: {
+        ...addressData,
+        user: {
+          connect: { id: userId },
+        },
+      },
+      select: UserAddressData,
+    });
+
+    return address;
   },
 };
 

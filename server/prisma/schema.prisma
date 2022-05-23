@@ -14,7 +14,7 @@ model User {
   firstName       String
   lastName        String
   tokens          Token[]
-  adresses        UserAddress[]
+  addresses       UserAddress[]
   isActive        Boolean           @default(true)
   registerInfo    RegisterInfo?
   createdAt       DateTime          @default(now())
@@ -31,17 +31,10 @@ model UserAddress {
   state        String
   city         String
   postalCode   String
-  countryId    String
+  country      String
   phone        String
-  country      Country @relation(fields: [countryId], references: [id])
   user         User    @relation(fields: [userId], references: [id])
   Order        Order[]
-}
-
-model Country {
-  id          String        @id @default(uuid())
-  name        String        @unique
-  UserAddress UserAddress[]
 }
 
 model Token {
