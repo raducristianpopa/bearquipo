@@ -1,4 +1,5 @@
 import { User, Token, Prisma, UserAddress } from "@prisma/client";
+import { Request } from "express";
 
 /* 
   TODO (its not neccessary - demo project) Create a service that will give the user an option to change his e-mail address.
@@ -50,11 +51,11 @@ export const UserProfileData = Prisma.validator<Prisma.UserSelect>()({
 export interface IUserInterface {
   /**
    * @description Get user informations for his settings page
-   * @param {string} userId
+   * @param {Request} req
    * @returns {Promise<UserProfileProps>}
    * @memberof UserService
    */
-  getUser(userId: string): Promise<UserProfileProps>;
+  getUser(req: Request): Promise<UserProfileProps | null>;
 
   /**
    * @description Update user general informations

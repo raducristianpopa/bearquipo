@@ -18,6 +18,14 @@ import apiv1 from "@modules/v1";
 
 const app = express();
 
+// enable cors
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 // `helmet` provides secured HTTP headers & disable `X-Powered-By` header
 app.use(helmet());
 app.disable("X-Powered-By");
@@ -33,14 +41,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // sanitize received data
 app.use(xss());
-
-// enable cors
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
 
 // parse cookies
 app.use(cookieParser());

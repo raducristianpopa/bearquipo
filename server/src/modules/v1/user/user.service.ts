@@ -7,10 +7,10 @@ import db from "@utils/db";
 import { IUserInterface, UserProfileData, UserAddressData } from "./user.interface";
 
 const UserService: IUserInterface = {
-  async getUser(userId: string) {
+  async getUser(req) {
     const user = await db.user.findUnique({
       where: {
-        id: userId,
+        id: req.user,
       },
       select: UserProfileData,
     });

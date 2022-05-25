@@ -7,8 +7,8 @@ import UserService from "./user.service";
 
 const UserController = {
   me: catcher(async function (req: Request, res: Response): Promise<void> {
-    const user = await UserService.getUser(req.user);
-    res.status(HTTPStatus.OK).json(user);
+    const user = await UserService.getUser(req);
+    res.status(HTTPStatus.OK).json({ user: user });
   }),
 
   changePassword: catcher(async function (req: Request, res: Response): Promise<void> {
@@ -18,7 +18,7 @@ const UserController = {
 
   updateUser: catcher(async function (req: Request, res: Response): Promise<void> {
     const user = await UserService.updateUser(req.user, req.body);
-    res.status(HTTPStatus.OK).json(user);
+    res.status(HTTPStatus.OK).json({ ...user });
   }),
 
   createAddress: catcher(async function (req: Request, res: Response): Promise<void> {
