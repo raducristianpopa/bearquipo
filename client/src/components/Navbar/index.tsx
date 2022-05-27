@@ -7,13 +7,14 @@ import NavItems from "./NavItems";
 import Modal from "../Modal";
 import { selectCurentUserStore } from "../../features/auth/userSlice";
 import { useTypedSelector } from "../../utils/hooks";
+import MobileMenu from "./MobileMenu";
 
 export interface INavLink {
   name: string;
   path: string;
 }
 
-const navLinks: INavLink[] = [
+export const navLinks: INavLink[] = [
   {
     name: "apparel",
     path: "/apparel",
@@ -43,6 +44,7 @@ const Navbar: React.FC = () => {
               <Link aria-label="Logo" to="/">
                 <Logo width={34} height={34} />
               </Link>
+              <MobileMenu />
               <nav className="block">
                 <NavItems links={navLinks} />
               </nav>

@@ -4,6 +4,7 @@ import HTTPStatus from "http-status";
 import { catcher } from "@utils/catch";
 
 import UserService from "./user.service";
+import config from "@config/config";
 
 const UserController = {
   me: catcher(async function (req: Request, res: Response): Promise<void> {
@@ -13,7 +14,9 @@ const UserController = {
 
   changePassword: catcher(async function (req: Request, res: Response): Promise<void> {
     await UserService.changePassword(req.user, req.body);
-    res.status(HTTPStatus.OK).json({ message: "Your password was successfuly changed." });
+
+    res.clearCookie(config.cookies.authName);
+    res.status(HTTPStatus.OK).json("Your password was successfuly changed.");
   }),
 
   updateUser: catcher(async function (req: Request, res: Response): Promise<void> {

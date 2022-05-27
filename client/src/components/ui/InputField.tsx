@@ -15,7 +15,7 @@ export default forwardRef<HTMLInputElement, InputFieldProps>((props, ref: any) =
         <label className={clsx(props.color, "block font-medium")}>
           {props.label}
           <input
-            className="block w-full p-2.5 rounded-sm bg-black border focus:border-white border-gray-200 focus:ring-0 border-opacity-50"
+            className="block w-full p-2.5 rounded-sm bg-black border  border-gray-200 border-opacity-50 focus:ring-gray-500 focus:border-gray-500"
             {...props}
             ref={ref}
           />

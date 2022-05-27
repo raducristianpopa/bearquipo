@@ -10,7 +10,7 @@ import { Request } from "express";
 */
 
 type UserProfileProps = Pick<User, "firstName" | "lastName" | "email"> & {
-  tokens: Pick<Token, "browser" | "browserVersion" | "os" | "platform" | "issuedAt">[];
+  tokens: Pick<Token, "browser" | "browserVersion" | "os" | "platform" | "issuedAt" | "userAgent">[];
   addresses: Omit<UserAddress, "userId">[];
 };
 type UserUpdateRequestBody = Pick<User, "firstName" | "lastName">;
@@ -31,12 +31,16 @@ export const UserProfileData = Prisma.validator<Prisma.UserSelect>()({
   lastName: true,
   email: true,
   tokens: {
+    where: {
+      isExpired: false,
+    },
     select: {
       issuedAt: true,
       browser: true,
       browserVersion: true,
       os: true,
       platform: true,
+      userAgent: true,
     },
   },
   addresses: {

@@ -1,6 +1,6 @@
 import { Spinner } from "phosphor-react";
 import { z } from "zod";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 import Button from "../ui/Button";
 import InputField from "../ui/InputField";
@@ -10,6 +10,7 @@ import { useAppDispatch } from "../../utils/hooks";
 import { API, APIError } from "../../api";
 import { setUser } from "../../features/auth/userSlice";
 import { useNavigate } from "react-router-dom";
+import { logIn } from "../../api/auth";
 
 interface ILoginForm {
   email: string;
@@ -34,7 +35,7 @@ const LoginForm = ({ setIsLoginForm }: { setIsLoginForm: Function }) => {
 
   const handleSubmit = async (values: ILoginForm) => {
     try {
-      const response = await API.post("auth/signin", { email: values.email, password: values.password });
+      const response = await logIn(values);
       if (response.status === 201) {
         /* CREATED */ dispatch(setUser());
         return navigate(0);

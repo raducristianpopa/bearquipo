@@ -12,11 +12,12 @@ export interface IUser {
 }
 
 interface ITokens {
-  issuedAt: Date;
+  issuedAt: string;
   browser: string;
   browserVersion: string;
   os: string;
   platform: string;
+  userAgent: string;
 }
 
 interface IAddresses {
@@ -48,7 +49,11 @@ export const setUser = createAsyncThunk("user/setUser", async () => {
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    updateUserState: (state, { payload: { user } }: PayloadAction<{ user: IUser | null }>) => {
+      state.user = user;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(setUser.pending, state => {
       state.user = null;
@@ -70,6 +75,7 @@ const userSlice = createSlice({
   },
 });
 
+export const { updateUserState } = userSlice.actions;
 export const selectCurrentUser = (state: RootState) => state.user.user;
 export const selectCurrentUserState = (state: RootState) => state.user.loading;
 export const selectCurentUserStore = (state: RootState) => state.user;

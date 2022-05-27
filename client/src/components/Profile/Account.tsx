@@ -1,8 +1,10 @@
+import axios from "axios";
 import { z } from "zod";
-import { updateUser } from "../../api/services/user";
-import { selectCurrentUser, setUser } from "../../features/auth/userSlice";
-import { useAppDispatch, useTypedSelector } from "../../utils/hooks";
 
+import { APIError } from "../../api";
+import { updateUser } from "../../api/services/user";
+import { selectCurrentUser, updateUserState } from "../../features/auth/userSlice";
+import { useAppDispatch, useTypedSelector } from "../../utils/hooks";
 import { Form, useForm } from "../../utils/useForm";
 import InputField from "../ui/InputField";
 
@@ -29,13 +31,27 @@ const Account = () => {
   });
 
   const handleSubmit = async (values: IAccountForm) => {
-    const response = await updateUser(values);
+    try {
+      const response = await updateUser(values);
+      dispatch(updateUserState({ user: response.data }));
+    } catch (err) {
+      if (axios.isAxiosError(err) && err.response) {
+        const errors = err.response.data as APIError;
+
+        if (errors.fields) {
+          Object.values(errors.fields).forEach((data, _idx) => {
+            accountForm.setError(data.field, { type: "custom", message: data.message });
+          });
+        }
+      }
+    }
   };
 
   return (
     <Form form={accountForm} onSubmit={handleSubmit}>
-      <div className="shadow sm:rounded-md sm:overflow-hidden">
+      <div className="shadow sm:rounded-sm sm:overflow-hidden shadow-slate-300">
         <div className="px-4 py-5 space-y-6 bg-white sm:p-6">
+          <p className="text-3xl font-bold text-black">Account</p>
           <div className="grid grid-cols-4 gap-6">
             <div className="col-span-4 sm:col-span-2">
               <InputField

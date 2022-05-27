@@ -1494,6 +1494,13 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@oieduardorabelo/use-user-agent@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@oieduardorabelo/use-user-agent/-/use-user-agent-5.0.0.tgz#7d4ccd8ad9c936da6966ed9b231e92ebe1fa19d7"
+  integrity sha512-TNQ8PhZdUg5wL/Zovie7NxNI1zBNgZcWZJjBNJh2pbGAETQ/Gs6B5VaL8L2eETBy0jpGD2cngr9hNapUJUOmOw==
+  dependencies:
+    ua-parser-js "1.0.2"
+
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.5.7.tgz#58f8217ba70069cc6a73f5d7e05e85b458c150e2"
@@ -8588,6 +8595,11 @@ typescript@^4.4.2:
   version "4.6.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
   integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
+
+ua-parser-js@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-1.0.2.tgz#e2976c34dbfb30b15d2c300b2a53eac87c57a775"
+  integrity sha512-00y/AXhx0/SsnI51fTc0rLRmafiGOM4/O+ny10Ps7f+j/b8p/ZY11ytMgznXkOVo4GQ+KwQG5UQLkLGirsACRg==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

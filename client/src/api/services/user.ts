@@ -7,6 +7,16 @@ interface IUpdateUserProps {
   lastName: string;
 }
 
-export function updateUser(data: IUpdateUserProps): Promise<AxiosResponse<IUser, {}>> {
+interface IChangePasswordProps {
+  oldPassword: string;
+  newPassword: string;
+  newConfirmPassword: string;
+}
+
+export function updateUser(data: IUpdateUserProps): Promise<AxiosResponse<IUser, any>> {
   return API.put("/user", data);
+}
+
+export function changePassword(data: IChangePasswordProps): Promise<AxiosResponse> {
+  return API.patch("/user", data);
 }

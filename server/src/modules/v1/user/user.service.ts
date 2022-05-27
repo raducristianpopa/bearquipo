@@ -33,6 +33,7 @@ const UserService: IUserInterface = {
     If the current user password does not match, the user sent the wrong password and we will
     not let him change his password
     */
+
     if (!(await argon2.verify(user.password, passwords.oldPassword))) {
       if (!user) throw new APIError(HTTPStatus.BAD_REQUEST, "Your current password does not match.");
     }
@@ -45,6 +46,16 @@ const UserService: IUserInterface = {
       },
       data: {
         password: newPassword,
+      },
+    });
+
+    // mark all sessions as expred
+    await db.token.updateMany({
+      where: {
+        userId,
+      },
+      data: {
+        isExpired: true,
       },
     });
   },

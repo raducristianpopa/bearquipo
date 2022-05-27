@@ -26,7 +26,7 @@ const SideMenu = () => {
                     pathname === item.href
                       ? "bg-white text-black"
                       : "text-gray-300 hover:bg-slate-100 hover:text-black hover:bg-opacity-70",
-                    "px-5 py-2 rounded-md font-medium flex items-center gap-5 ease-linear duration-150"
+                    "px-5 py-2 rounded-sm shadow-sm font-medium flex items-center gap-5 ease-linear duration-150"
                   )}
                 >
                   {item.icon}
