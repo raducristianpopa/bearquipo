@@ -77,32 +77,32 @@ model Supplier {
 }
 
 model Product {
-  id                 String           @id @default(uuid())
-  name               String
-  description        String
-  slug               String           @unique
-  sku                String           @unique
-  price              Float
-  supplierId         String
-  productCategoryId  String
-  productInventoryId String
-  supplier           Supplier         @relation(fields: [supplierId], references: [id])
-  category           ProductCategory  @relation(fields: [productCategoryId], references: [id])
-  inventory          ProductInventory @relation(fields: [productInventoryId], references: [id])
-  CartItem           CartItem[]
-  OrderItem          OrderItem[]
+  id           String            @id @default(uuid())
+  name         String
+  description  String
+  slug         String            @unique
+  sku          String            @unique
+  price        Float
+  supplierId   String
+  quantity     Int               @default(0)
+  category     ProductCategory[]
+  supplier     Supplier          @relation(fields: [supplierId], references: [id])
+  CartItem     CartItem[]
+  OrderItem    OrderItem[]
+  ProductImage ProductImage[]
+}
+
+model ProductImage {
+  id        String  @id @default(uuid())
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  image     String
 }
 
 model ProductCategory {
   id      String    @id @default(uuid())
   name    String    @unique
   Product Product[]
-}
-
-model ProductInventory {
-  id       String    @id @default(uuid())
-  quantity Int
-  Product  Product[]
 }
 
 model ProductDiscount {

@@ -16,7 +16,8 @@ router
 
 router
   .route("/address")
-  .post(isAuthenticated, validate(UserValidation.addAddress), UserController.createAddress);
+  .post(isAuthenticated, validate(UserValidation.addAddress), UserController.createAddress)
+  .patch(isAuthenticated, validate(UserValidation.updateAddress), UserController.updateAddress);
 
 // router.get("/me", isAuthenticated, UserController.me);
 // router.patch(

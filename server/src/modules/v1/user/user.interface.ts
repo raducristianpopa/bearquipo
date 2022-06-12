@@ -89,5 +89,10 @@ export interface IUserInterface {
   createUserAddress(
     userId: string,
     addressData: Omit<Prisma.UserAddressCreateInput, "userId">
-  ): Promise<Omit<UserAddress, "userId">>;
+  ): Promise<Omit<UserAddress, "userId">[]>;
+
+  updateUserAddress(
+    userId: string,
+    addressData: Omit<Prisma.UserAddressCreateInput, "userId">
+  ): Promise<Omit<UserAddress, "userId">[]>;
 }

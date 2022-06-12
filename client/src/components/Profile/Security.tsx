@@ -34,7 +34,7 @@ const Security = () => {
   const dispatch = useAppDispatch();
   const user = useTypedSelector(selectCurrentUser);
   const userAgent = window.navigator.userAgent;
-  console.log(user?.tokens);
+
   const securityForm = useForm({
     schema: securitySchema,
   });

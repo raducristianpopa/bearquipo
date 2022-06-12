@@ -8,7 +8,7 @@ export interface IUser {
   lastName: string;
   email: string;
   tokens?: ITokens[] | null;
-  addresses?: IAddresses | null;
+  addresses?: IAddresses[] | null;
 }
 
 interface ITokens {
@@ -20,10 +20,10 @@ interface ITokens {
   userAgent: string;
 }
 
-interface IAddresses {
+export interface IAddresses {
   id: string;
   addressLine1: string;
-  addressLine2: string;
+  addressLine2?: string;
   state: string;
   city: string;
   postalCode: string;
@@ -53,6 +53,9 @@ const userSlice = createSlice({
     updateUserState: (state, { payload: { user } }: PayloadAction<{ user: IUser | null }>) => {
       state.user = user;
     },
+    updateUserAddresses: (state, { payload: { addresses } }: PayloadAction<{ addresses: IAddresses[] }>) => {
+      state.user!.addresses = addresses;
+    },
   },
   extraReducers: builder => {
     builder.addCase(setUser.pending, state => {
@@ -75,7 +78,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateUserState } = userSlice.actions;
+export const { updateUserState, updateUserAddresses } = userSlice.actions;
 export const selectCurrentUser = (state: RootState) => state.user.user;
 export const selectCurrentUserState = (state: RootState) => state.user.loading;
 export const selectCurentUserStore = (state: RootState) => state.user;

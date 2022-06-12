@@ -75,17 +75,48 @@ const UserService: IUserInterface = {
   },
 
   async createUserAddress(userId, addressData) {
-    const address = await db.userAddress.create({
+    await db.userAddress.create({
       data: {
         ...addressData,
         user: {
           connect: { id: userId },
         },
       },
+    });
+
+    // get a copy all of the user addresses
+    const addresses = db.userAddress.findMany({
+      where: {
+        userId,
+      },
       select: UserAddressData,
     });
 
-    return address;
+    return addresses;
+  },
+
+  async updateUserAddress(userId, addressData) {
+    const { id, ...addressInfo } = addressData;
+
+    // update the address
+    await db.userAddress.update({
+      where: {
+        id,
+      },
+      data: {
+        ...addressInfo,
+      },
+    });
+
+    // get a copy all of the user addresses
+    const addresses = db.userAddress.findMany({
+      where: {
+        userId,
+      },
+      select: UserAddressData,
+    });
+
+    return addresses;
   },
 };
 

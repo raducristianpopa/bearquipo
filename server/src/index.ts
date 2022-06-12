@@ -48,6 +48,8 @@ app.use(cookieParser());
 // useragent parse
 app.use(useragent.express());
 
+app.use("/static", express.static(__dirname + "/public"));
+
 app.use("/api/v1", apiv1);
 
 // return a 404 error for any unknown api request

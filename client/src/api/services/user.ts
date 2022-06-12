@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { IUser } from "../../features/auth/userSlice";
+import { IAddresses, IUser } from "../../features/auth/userSlice";
 import { API } from "../index";
 
 interface IUpdateUserProps {
@@ -19,4 +19,12 @@ export function updateUser(data: IUpdateUserProps): Promise<AxiosResponse<IUser,
 
 export function changePassword(data: IChangePasswordProps): Promise<AxiosResponse> {
   return API.patch("/user", data);
+}
+
+export function updateAddress(data: IAddresses): Promise<AxiosResponse<IAddresses[], any>> {
+  return API.patch("/user/address", data);
+}
+
+export function addAddress(data: Omit<IAddresses, "id">): Promise<AxiosResponse<IAddresses[], any>> {
+  return API.post("/user/address", data);
 }

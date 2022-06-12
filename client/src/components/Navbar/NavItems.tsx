@@ -9,8 +9,6 @@ interface INavItems {
 }
 
 const NavItems: React.FC<INavItems> = ({ links }) => {
-  const { pathname } = useLocation();
-
   return (
     <div className="hidden md:block">
       {links.map((link, index) => (
