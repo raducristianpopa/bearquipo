@@ -1,2 +1,3 @@
-Unfinished project
-Estimated finish: TBD
+**Unfinished project**
+
+*ETA: TBD*
